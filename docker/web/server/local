@@ -1,0 +1,70 @@
+server {
+    charset utf-8;
+    index   index.php;
+    listen   80;
+    root    /var/www/platform/public;
+
+ 
+
+    # Add headers
+    add_header Access-Control-Allow-Credentials true always;
+    add_header Access-Control-Allow-Headers Authorization,Content-Type always;
+    add_header Access-Control-Allow-Origin * always;
+    add_header Access-Control-Allow-Methods DELETE,GET,PATCH,OPTIONS,POST always;
+    add_header Content-Security-Policy "frame-ancestors 'self' localhost:3000";
+    add_header X-Content-Type-Options nosniff always;
+    add_header X-XSS-Protection "1; mode=block" always;
+
+ 
+
+    # Force all requests through application
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+ 
+
+    # Process app requests with PHP7
+    location ~ [^/]\.php(/|$) {
+        fastcgi_keep_conn on;
+        fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+        
+        # Stop processing of non-PHP scripts
+        if (!-f $document_root$fastcgi_script_name) {
+            return 404;
+        }
+    
+        fastcgi_pass  php:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+ 
+
+        fastcgi_buffer_size          256k;
+        fastcgi_buffers              256 16k;
+        fastcgi_busy_buffers_size    256k;
+        fastcgi_connect_timeout      60;
+        fastcgi_max_temp_file_size   0;
+        fastcgi_read_timeout         60;
+        fastcgi_send_timeout         60;
+        fastcgi_temp_file_write_size 256k;
+
+ 
+
+        include fastcgi_params;
+    }
+
+ 
+
+    # Cache statis assets
+    location ~* \.(css|gif|ico|jpg|jpeg|js|png)$ {
+        expires max;
+    }
+
+ 
+
+    # Block access to hidden files
+    location ~ /\. {
+        try_files /index.php?$args /index.php?$args;
+    }
+}

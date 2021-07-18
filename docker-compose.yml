@@ -1,0 +1,26 @@
+version: '3'
+services:
+    web:
+        build: './docker/web'
+        ports:
+            - '80:80'
+            - '443:443'
+        links:
+            - php:php
+        volumes:
+            - .:/var/www/platform
+    mariadb:
+        environment:
+            - MYSQL_DATABASE=docker
+            - MYSQL_USER=docker
+            - MYSQL_PASSWORD=docker
+            - MYSQL_ROOT_PASSWORD=docker
+        image: mariadb
+        ports:
+            - "3306:3306"
+    php:
+        build: './docker/php'
+        links:
+            - mariadb:mariadb
+        volumes:
+            - .:/var/www/platform
