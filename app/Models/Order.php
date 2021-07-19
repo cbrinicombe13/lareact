@@ -25,6 +25,7 @@ class Order extends Model
 
     public function productVariants()
     {
-        return $this->belongsToMany('App\Models\ProductVariant');
+        return $this->belongsToMany('App\Models\ProductVariant')
+            ->using('App\Models\OrderProductVariant');
     }
 }
