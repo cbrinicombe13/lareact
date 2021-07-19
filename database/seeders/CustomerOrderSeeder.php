@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Customer;
+use App\Models\Note;
 use App\Models\Order;
 use App\Models\ProductVariant;
 use Illuminate\Database\Seeder;
@@ -20,7 +21,18 @@ class CustomerOrderSeeder extends Seeder
 
         Customer::factory()
             ->count(50)
-            ->hasOrders(20)
+            ->has(
+                Note::factory()
+                    ->state(['body' => 'This is a customer note'])
+            )
+            ->has(
+                Order::factory()
+                    ->count(20)
+                    ->has(
+                        Note::factory()
+                            ->state(['body' => 'This is an order note'])
+                    )
+            )
             ->create();
 
         // Attach up to 4 random variants per order

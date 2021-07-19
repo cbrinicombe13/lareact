@@ -2,22 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasNotes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\ModelStatus\HasStatuses;
 
 class Order extends Model
 {
-    use HasFactory, HasStatuses;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'notes',
-    ];
+    use HasFactory, HasStatuses, HasNotes;
 
     public function customer()
     {
