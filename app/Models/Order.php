@@ -5,11 +5,12 @@ namespace App\Models;
 use App\Traits\HasNotes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\ModelStatus\HasStatuses;
 
 class Order extends Model
 {
-    use HasFactory, HasStatuses, HasNotes;
+    use HasFactory, HasStatuses, HasNotes, SoftDeletes;
 
     public function customer()
     {

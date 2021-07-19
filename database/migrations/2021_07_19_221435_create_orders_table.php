@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->foreignId('customer_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
