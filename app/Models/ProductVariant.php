@@ -31,4 +31,9 @@ class ProductVariant extends Model
     {
         return $this->belongsToMany('App\Models\ProductOption');
     }
+
+    public function orders()
+    {
+        return $this->belongsToMany('App\Models\Order');
+    }
 }

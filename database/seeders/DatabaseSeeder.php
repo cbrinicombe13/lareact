@@ -23,10 +23,10 @@ class DatabaseSeeder extends Seeder
             'password' => app('hash')->make('Password1'),
         ]);
 
-        // Create customers
-        Customer::factory()->count(50)->create();
-
-        // Craete products, options and variants
+        // Create products, options and variants
         $this->call(ProductSeeder::class);
+
+        // Create customers, orders & attach product variants
+        $this->call(CustomerOrderSeeder::class);
     }
 }
