@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // Create a user
         User::create([
             'first_name' => 'Charlie',
             'last_name' => 'Brinicombe',
@@ -22,6 +23,10 @@ class DatabaseSeeder extends Seeder
             'password' => app('hash')->make('Password1'),
         ]);
 
+        // Create customers
         Customer::factory()->count(50)->create();
+
+        // Craete products, options and variants
+        $this->call(ProductSeeder::class);
     }
 }
