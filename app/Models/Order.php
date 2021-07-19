@@ -28,4 +28,9 @@ class Order extends Model
         return $this->belongsToMany('App\Models\ProductVariant')
             ->using('App\Models\OrderProductVariant');
     }
+
+    public function addresses()
+    {
+        return $this->morphMany('App\Models\Address', 'addressable');
+    }
 }

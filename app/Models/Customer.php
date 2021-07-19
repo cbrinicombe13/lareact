@@ -45,4 +45,9 @@ class Customer extends Model
     {
         return $this->hasMany('App\Models\Order');
     }
+
+    public function address()
+    {
+        return $this->morphOne('App\Models\Address', 'addressable');
+    }
 }
